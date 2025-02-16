@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class TestRun : MonoBehaviour
 {
-    public DiceStats defaultDice;
+    public List<DiceStats> dicePool = new List<DiceStats>();
 
     public List<DiceStats> dices = new List<DiceStats>();
 
@@ -12,7 +14,9 @@ public class TestRun : MonoBehaviour
     public int maxDiceCount = 5;
 
     public int lastRoll = 0;
-    public bool canUseRoll = false;
+    public bool canUseRolledValue = false;
+
+    public List<TextMeshProUGUI> diceTexts = new List<TextMeshProUGUI>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +36,7 @@ public class TestRun : MonoBehaviour
         while (keepDrawing)
         {
             keepDrawing = DrawDie();
+            UpdateDiceText();
         }
     }
 
@@ -39,7 +44,7 @@ public class TestRun : MonoBehaviour
     {
         if (dices.Count < maxDiceCount)
         {
-            dices.Add(defaultDice);
+            dices.Add(dicePool[Random.Range(0, dicePool.Count)]);
             return true;
         }
 
@@ -57,7 +62,30 @@ public class TestRun : MonoBehaviour
         int roll = dices[0].sides[Random.Range(0, dices[0].sides.Length)];
         lastRoll = roll;
 
+        Debug.Log("Rolled: " + roll + " / " + dices[0].sides.Last());
+
         dices.RemoveAt(0);
-        canUseRoll = true;
+        canUseRolledValue = true;
+
+        UpdateDiceText();
+    }
+
+    public void ClaimRoll()
+    {
+        canUseRolledValue = false;
+        lastRoll = 0;
+    }
+
+    private void UpdateDiceText()
+    {
+        foreach (var tmpro in diceTexts)
+        {
+            tmpro.text = "";
+        }
+
+        for (int i = 0; i < dices.Count; i++)
+        {
+            diceTexts[i].text = dices[i].displayName;
+        }
     }
 }

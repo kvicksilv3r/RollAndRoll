@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16148c1664b791d4b981a904b67d5706, type: 3}
-  m_Name: D6_Vanilla
+  m_Name: D3_X3
   m_EditorClassIdentifier: 
-  displayName: Classic D6
-  description: Classic dice. Six sides, no more, no less.
-  sides: 010000000200000003000000040000000500000006000000
+  displayName: Triple D3
+  description: Three sides somehow. Each side is worth 3.
+  sides: 030000000600000009000000
   rarity: 0
