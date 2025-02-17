@@ -32,6 +32,9 @@ public class TestRun : MonoBehaviour
 
     public void DrawDice()
     {
+        canUseRolledValue = false;
+        dices.Clear();
+
         bool keepDrawing = true;
         while (keepDrawing)
         {

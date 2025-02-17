@@ -12,8 +12,6 @@ public class Player : MonoBehaviour
 
     public float jumpTime = 0.34f;
 
-    public AnimationCurve jumpCurve;
-
     public bool isTweening = false;
 
     void Start()
@@ -47,7 +45,7 @@ public class Player : MonoBehaviour
         }
 
         transform.DOJump(nextBlock.playerPlace.position, 1, 1, jumpTime, false).OnComplete(() => MoveStep(moves - 1, forward));
-        transform.DOLookAt(nextBlock.playerPlace.position, jumpTime);
+        transform.DOLookAt(nextBlock.playerPlace.position, jumpTime, AxisConstraint.Y);
         currentBlock = nextBlock;
     }
 
