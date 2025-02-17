@@ -15,4 +15,4 @@ MonoBehaviour:
   displayName: Classic D4
   description: Four sides, no more, no less.
   sides: 01000000020000000300000004000000
-  rarity: 0
+  rarity: 1

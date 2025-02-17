@@ -16,8 +16,6 @@ public class Player : MonoBehaviour
 
     public bool isTweening = false;
 
-    Sequence mySequence = DOTween.Sequence();
-
     void Start()
     {
         currentBlock = track.trackBlocks[0];
@@ -27,15 +25,29 @@ public class Player : MonoBehaviour
         DOTween.Init();
     }
 
-    public void MoveStep(int moves)
+    public void MoveStep(int moves, bool forward)
     {
+        moves = Mathf.Abs(moves);
+
         if (moves <= 0)
         {
             return;
         }
 
-        var nextBlock = track.GetNextBlock(currentBlock);
-        transform.DOJump(nextBlock.playerPlace.position, 1, 1, jumpTime, false).OnComplete(() => MoveStep(moves - 1));
+        TrackBlock nextBlock = null;
+
+        if (forward)
+        {
+            nextBlock = track.GetNextBlock(currentBlock);
+        }
+
+        else
+        {
+            nextBlock = track.GetPreviousBlock(currentBlock);
+        }
+
+        transform.DOJump(nextBlock.playerPlace.position, 1, 1, jumpTime, false).OnComplete(() => MoveStep(moves - 1, forward));
+        transform.DOLookAt(nextBlock.playerPlace.position, jumpTime);
         currentBlock = nextBlock;
     }
 
@@ -49,7 +61,6 @@ public class Player : MonoBehaviour
         var moves = run.lastRoll;
         run.ClaimRoll();
 
-        MoveStep(moves);
+        MoveStep(moves, moves > 0);
     }
-
 }

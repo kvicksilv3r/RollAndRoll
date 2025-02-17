@@ -22,6 +22,13 @@ public class Track : MonoBehaviour
         return trackBlocks[(currIndex + 1) % trackBlocks.Count];
     }
 
+    public TrackBlock GetPreviousBlock(TrackBlock currentBlock)
+    {
+        var currIndex = trackBlocks.IndexOf(currentBlock);
+
+        return trackBlocks[(currIndex + trackBlocks.Count - 1) % trackBlocks.Count];
+    }
+
     void Start()
     {
 

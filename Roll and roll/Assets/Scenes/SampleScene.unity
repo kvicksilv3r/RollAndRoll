@@ -4549,6 +4549,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 84d82dcdf3508b849ab0c504b66dc10b, type: 2}
   - {fileID: 11400000, guid: 8bc2e1d0ca0bc59469f69fc4c4269bfa, type: 2}
   - {fileID: 11400000, guid: 6d106a1562c8e6c4e85c4d933c9a3bc5, type: 2}
+  - {fileID: 11400000, guid: 39f854d941c57914e8711aaadd7f5ae6, type: 2}
   dices: []
   currentDie: {fileID: 0}
   maxDiceCount: 5
