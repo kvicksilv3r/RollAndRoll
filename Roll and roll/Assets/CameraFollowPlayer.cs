@@ -30,7 +30,7 @@ public class CameraFollowPlayer : MonoBehaviour
         var maxDeltaModifier = Mathf.Lerp(deltaModMin, deltaModMax, distFromPlayer);
         var v = Vector3.MoveTowards(transform.position, player.transform.position + offset, maxDelta * Time.deltaTime * maxDeltaModifier);
 
-        Debug.Log(maxDeltaModifier);
+        //Debug.Log(maxDeltaModifier);
 
         var posDelta = v - transform.position;
 

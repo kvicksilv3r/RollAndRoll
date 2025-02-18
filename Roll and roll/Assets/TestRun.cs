@@ -24,6 +24,8 @@ public class TestRun : MonoBehaviour
 
     }
 
+    //TODO Add dice bag. Add gold. Add lose state. Add saving. Add bag building 
+
     // Update is called once per frame
     void Update()
     {
