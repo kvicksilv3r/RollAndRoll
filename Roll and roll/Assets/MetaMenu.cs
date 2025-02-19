@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MetaMenu : MonoBehaviour
 {
@@ -29,8 +30,8 @@ public class MetaMenu : MonoBehaviour
         ppio.WriteBool(keys.PLAYER_PREFS_INIT, true);
     }
 
-    void Update()
+    public void PlayGame()
     {
-
+        SceneManager.LoadScene(1);
     }
 }

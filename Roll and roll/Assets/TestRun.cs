@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class TestRun : MonoBehaviour
 {
-    public List<DiceStats> dicePool = new List<DiceStats>();
+    public DiceBag dicePool = new DiceBag();
 
-    public List<DiceStats> dices = new List<DiceStats>();
+    public DiceBag dices = new DiceBag();
 
     public DiceStats currentDie;
 
@@ -18,24 +18,23 @@ public class TestRun : MonoBehaviour
 
     public List<TextMeshProUGUI> diceTexts = new List<TextMeshProUGUI>();
 
+    public bool useRealData = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        if (useRealData)
+        {
+            dicePool = DiceBagHelper.Instance.GetPlayerDiceBag();
+        }
     }
 
-    //TODO Add dice bag. Add gold. Add lose state. Add saving. Add bag building 
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    //TODO Add lose state. Add bag building. Add get gold. 
 
     public void DrawDice()
     {
         canUseRolledValue = false;
-        dices.Clear();
+        dices.bag.Clear();
 
         bool keepDrawing = true;
         while (keepDrawing)
@@ -47,9 +46,9 @@ public class TestRun : MonoBehaviour
 
     public bool DrawDie()
     {
-        if (dices.Count < maxDiceCount)
+        if (dices.bag.Count < maxDiceCount)
         {
-            dices.Add(dicePool[Random.Range(0, dicePool.Count)]);
+            dices.bag.Add(dicePool.bag[Random.Range(0, dicePool.bag.Count)]);
             return true;
         }
 
@@ -58,18 +57,18 @@ public class TestRun : MonoBehaviour
 
     public void RollDie()
     {
-        if (dices.Count <= 0)
+        if (dices.bag.Count <= 0)
         {
             Debug.Log("No dice, nothing happens");
             return;
         }
 
-        int roll = dices[0].sides[Random.Range(0, dices[0].sides.Length)];
+        int roll = dices.bag[0].sides[Random.Range(0, dices.bag[0].sides.Length)];
         lastRoll = roll;
 
-        Debug.Log("Rolled: " + roll + " / " + dices[0].sides.Last());
+        Debug.Log("Rolled: " + roll + " / " + dices.bag[0].sides.Last());
 
-        dices.RemoveAt(0);
+        dices.bag.RemoveAt(0);
         canUseRolledValue = true;
 
         UpdateDiceText();
@@ -88,9 +87,9 @@ public class TestRun : MonoBehaviour
             tmpro.text = "";
         }
 
-        for (int i = 0; i < dices.Count; i++)
+        for (int i = 0; i < dices.bag.Count; i++)
         {
-            diceTexts[i].text = dices[i].displayName;
+            diceTexts[i].text = dices.bag[i].displayName;
         }
     }
 }
