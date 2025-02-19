@@ -10,7 +10,6 @@ public class DiceBagHelper : MonoBehaviour
 
     public string bagString;
 
-    public List<DiceStats> diceCollection = new List<DiceStats>();
 
     public void SaveDiceBag()
     {
@@ -51,25 +50,15 @@ public class DiceBagHelper : MonoBehaviour
 
     private void DiceBagAssembler(string savedBag)
     {
-        SetupCollection();
-
         returnBag = new DiceBag();
 
         var splitSave = savedBag.Split(",");
+
+        var diceCollection = DiceCollectionHelper.Instance.GetDiceCollection();
 
         foreach (var savedGuid in splitSave)
         {
             returnBag.bag.Add(diceCollection.Find(d => d.UID == savedGuid));
         }
-    }
-
-    private void SetupCollection()
-    {
-        if (diceCollection.Count > 0)
-        {
-            return;
-        }
-
-        diceCollection = Resources.LoadAll<DiceStats>("DiceData").ToList();
     }
 }

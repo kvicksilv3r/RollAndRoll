@@ -387,6 +387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1583800654}
   - component: {fileID: 1583800653}
+  - component: {fileID: 1583800655}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -414,7 +415,6 @@ MonoBehaviour:
   returnBag:
     bag: []
   bagString: 1f5a561023afbc849a6d21ef666ebd48,83082269f799cce4298a9c5eec87431a,5617863571bebda4dbb822926f7029de
-  diceCollection: []
 --- !u!4 &1583800654
 Transform:
   m_ObjectHideFlags: 0
@@ -430,6 +430,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1583800655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583800652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2749d76b87c8ac4a8e19f9310a94731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diceCollection: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
