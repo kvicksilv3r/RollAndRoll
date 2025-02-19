@@ -4,28 +4,51 @@ using UnityEngine;
 
 public class DiceCollectionHelper : MonoBehaviour
 {
-    protected List<DiceStats> diceCollection = new List<DiceStats>();
+    protected DiceBag allDice = new DiceBag();
+    protected DiceBag unlockedDice = new DiceBag();
     public static DiceCollectionHelper Instance;
 
     private void Awake()
     {
-        SetupCollection();
-
         Instance = this;
+
+        SetupAlLDice();
     }
 
-    public List<DiceStats> GetDiceCollection()
+    private void Start()
     {
-        return diceCollection;
+        SetupUnlockedDice();
     }
 
-    private void SetupCollection()
+    public DiceBag GetAllDice()
     {
-        if (diceCollection.Count > 0)
+        return allDice;
+    }
+
+    public DiceBag GetUnlockedDice()
+    {
+        return unlockedDice;
+    }
+
+    private void SetupAlLDice()
+    {
+        if (allDice.bag.Count > 0)
         {
             return;
         }
 
-        diceCollection = Resources.LoadAll<DiceStats>("DiceData").ToList();
+        allDice.bag = Resources.LoadAll<DiceStats>("DiceData").ToList();
+    }
+
+    private void SetupUnlockedDice()
+    {
+        if (unlockedDice.bag.Count > 0)
+        {
+            return;
+        }
+
+        var savedUnlockeDice = PlayerPrefsIO.Instance.GetString(PlayerPrefsIO.Instance.keys.UNLOCKED_DICE);
+
+        unlockedDice = DiceBagHelper.Instance.DiceBagAssembler(savedUnlockeDice);
     }
 }

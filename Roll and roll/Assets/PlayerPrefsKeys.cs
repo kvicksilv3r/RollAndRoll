@@ -9,5 +9,7 @@ public class PlayerPrefsKeys : ScriptableObject
 
     public readonly string PLAYER_DICE_BAG = "PlayerDiceBag";
 
+    public readonly string UNLOCKED_DICE = "PlayerUnlockedDice";
+
     public readonly string PLAYER_PREFS_INIT = "PrefsIni";
 }

@@ -15,4 +15,5 @@ MonoBehaviour:
   displayName: Classic D6
   description: Classic dice. Six sides, no more, no less.
   sides: 010000000200000003000000040000000500000006000000
-  rarity: 0
+  rarity: 1
+  UID: 0f01b9c8d8919ec4683f4f4deac0a2e3

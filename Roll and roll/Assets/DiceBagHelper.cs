@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class DiceBagHelper : MonoBehaviour
 {
-    public DiceBag testBag;
+    public DiceBag playerDiceBag;
+    public static DiceBagHelper Instance;
 
-    public DiceBag returnBag;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
-    public string bagString;
-
-
-    public void SaveDiceBag()
+    public void SaveDiceBag(DiceBag playerBag)
     {
         List<string> bagContent = new List<string>();
 
-        foreach (var die in testBag.bag)
+        foreach (var die in playerBag.bag)
         {
             bagContent.Add(die.UID);
         }
 
-        bagString = string.Join(',', bagContent);
+        var bagString = string.Join(',', bagContent);
 
         PlayerPrefsIO.Instance.WriteString(PlayerPrefsIO.Instance.keys.PLAYER_DICE_BAG, bagString);
     }
@@ -28,19 +29,19 @@ public class DiceBagHelper : MonoBehaviour
     public DiceBag GetPlayerDiceBag()
     {
 
-        if (returnBag == null || returnBag.bag.IsEmpty())
+        if (playerDiceBag == null || playerDiceBag.bag.IsEmpty())
         {
             LoadDiceBag();
         }
 
-        return returnBag;
+        return playerDiceBag;
     }
 
     public void LoadDiceBag()
     {
         string savedBag = FetchSavedPlayerBag();
 
-        DiceBagAssembler(savedBag);
+        playerDiceBag = DiceBagAssembler(savedBag);
     }
 
     private static string FetchSavedPlayerBag()
@@ -48,17 +49,19 @@ public class DiceBagHelper : MonoBehaviour
         return PlayerPrefsIO.Instance.GetString(PlayerPrefsIO.Instance.keys.PLAYER_DICE_BAG);
     }
 
-    private void DiceBagAssembler(string savedBag)
+    public DiceBag DiceBagAssembler(string savedBag)
     {
-        returnBag = new DiceBag();
+        var returnBag = new DiceBag();
 
         var splitSave = savedBag.Split(",");
 
-        var diceCollection = DiceCollectionHelper.Instance.GetDiceCollection();
+        var diceCollection = DiceCollectionHelper.Instance.GetAllDice().bag;
 
         foreach (var savedGuid in splitSave)
         {
             returnBag.bag.Add(diceCollection.Find(d => d.UID == savedGuid));
         }
+
+        return returnBag;
     }
 }
