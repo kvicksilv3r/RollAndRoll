@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,6 +18,13 @@ public class DiceCollectionHelper : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(SetupDelay());
+    }
+
+    IEnumerator SetupDelay()
+    {
+        yield return new WaitForSeconds(0);
+
         SetupUnlockedDice();
     }
 

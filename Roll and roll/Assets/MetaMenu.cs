@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class MetaMenu : MonoBehaviour
 {
 
-    void Start()
+    void Awake()
     {
         InitPlayerPrefs();
     }
@@ -23,7 +23,7 @@ public class MetaMenu : MonoBehaviour
         ppio.WriteInt(keys.PLAYER_GOLD, 0);
         ppio.WriteInt(keys.TEMPORARY_GOLD, 0);
 
-        ppio.WriteString(keys.PLAYER_DICE_BAG, "");
+        ppio.WriteString(keys.PLAYER_DICE_BAG, "0825586db5b1f6a489fe5715c6f6eebf");
 
         ppio.WriteString(keys.UNLOCKED_DICE, "0825586db5b1f6a489fe5715c6f6eebf");
 
