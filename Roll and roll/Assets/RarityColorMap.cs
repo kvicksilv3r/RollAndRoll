@@ -7,6 +7,7 @@ public class RarityColorMap : ScriptableObject
     public List<RarityColor> map = new List<RarityColor>();
 }
 
+[System.Serializable]
 public class RarityColor
 {
     public Rarity rarity;
