@@ -5,48 +5,61 @@ using UnityEngine.EventSystems;
 
 public class DiceVisualEntity : MonoBehaviour, IPointerDownHandler
 {
-	public TextMeshProUGUI diceNameTMP;
-	public DiceStats dice;
+    public TextMeshProUGUI diceNameTMP;
+    public TextMeshProUGUI diceCountTMP;
+    public DiceStats dice;
 
-	public GameObject selected;
+    public GameObject selected;
+    public GameObject countPanel;
 
-	public BagBuilding bagBuilder;
+    public BagBuilding bagBuilder;
 
-	public void SetupDice(DiceStats newDice, BagBuilding theBagBuilder)
-	{
-		dice = newDice;
-		bagBuilder = theBagBuilder;
+    public void SetupDice(DiceStats newDice, BagBuilding theBagBuilder, int amount = 1)
+    {
+        dice = newDice;
+        bagBuilder = theBagBuilder;
 
-		diceNameTMP.text = dice.displayName;
-	}
+        diceNameTMP.text = dice.displayName;
 
-	public void OnPointerDown(PointerEventData eventData)
-	{
-		print("bink bonk");
+        SetAmount();
+    }
 
-		if (selected.activeInHierarchy)
-		{
-			SetDeselected();
-			return;
-		}
+    public void SetAmount(int amount = 1)
+    {
+        if (amount > 1)
+        {
+            countPanel.SetActive(true);
+            diceCountTMP.text = "x" + amount;
+        }
+    }
 
-		else
-		{
-			SetSelected();
-			return;
-		}
-	}
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        print("bink bonk");
 
-	private void SetSelected()
-	{
-		bagBuilder.ShowDiceInfo(dice);
-		selected.SetActive(true);
-	}
+        if (selected.activeInHierarchy)
+        {
+            SetDeselected();
+            return;
+        }
 
-	private void SetDeselected()
-	{
-		bagBuilder.RemoveDiceInfo();
-		selected.SetActive(false);
-		//dice info hide dice
-	}
+        else
+        {
+            SetSelected();
+            return;
+        }
+    }
+
+    private void SetSelected()
+    {
+        bagBuilder.SetSelectedDice(dice);
+        selected.SetActive(true);
+    }
+
+    private void SetDeselected()
+    {
+        bagBuilder.DeselectDice();
+        selected.SetActive(false);
+        //dice info hide dice
+    }
 }
