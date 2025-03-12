@@ -14,6 +14,8 @@ public class DiceVisualEntity : MonoBehaviour, IPointerDownHandler
 
     public BagBuilding bagBuilder;
 
+    private bool isSelected = false;
+
     public void SetupDice(DiceStats newDice, BagBuilding theBagBuilder, int amount = 1)
     {
         dice = newDice;
@@ -30,6 +32,11 @@ public class DiceVisualEntity : MonoBehaviour, IPointerDownHandler
         {
             countPanel.SetActive(true);
             diceCountTMP.text = "x" + amount;
+        }
+
+        else
+        {
+            countPanel.SetActive(false);
         }
     }
 
@@ -54,12 +61,21 @@ public class DiceVisualEntity : MonoBehaviour, IPointerDownHandler
     {
         bagBuilder.SetSelectedDice(dice);
         selected.SetActive(true);
+        isSelected = true;
     }
 
     private void SetDeselected()
     {
         bagBuilder.DeselectDice();
         selected.SetActive(false);
-        //dice info hide dice
+        isSelected = false;
+    }
+
+    private void OnDestroy()
+    {
+        if (isSelected)
+        {
+            SetDeselected();
+        }
     }
 }

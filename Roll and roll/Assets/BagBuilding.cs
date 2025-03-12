@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Linq;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 
 [System.Serializable]
 public class BagBuildingTempCombo
@@ -30,6 +31,8 @@ public class BagBuilding : MonoBehaviour
     public GameObject currentBagPanel;
     public GameObject availableDicePanel;
     public GameObject addRemovePanel;
+    public GameObject saveButton;
+    public GameObject addDiceButton;
 
     public GameObject DiceEntity;
 
@@ -40,17 +43,11 @@ public class BagBuilding : MonoBehaviour
     public DiceStats selectedDice;
 
     public int maxBagSize = 12;
+    public int maxDiceVariants = 6;
 
     private void Awake()
     {
         RemoveDiceInfo();
-    }
-
-    public void MakeAndSaveBag()
-    {
-        bag = DiceCollectionHelper.Instance.GetUnlockedDice();
-
-        DiceBagHelper.Instance.SaveDiceBag(bag);
     }
 
     public void OpenBagBuilding()
@@ -79,19 +76,8 @@ public class BagBuilding : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach (var dice in currentBag.bag)
-        {
-            if (DiceAlreadyActiveInBag(dice))
-            {
-                AddCountToDice(dice);
-            }
-
-            else
-            {
-                var instantiatedDice = Instantiate(DiceEntity, currentBagPanel.transform);
-                instantiatedDice.GetComponent<DiceVisualEntity>().SetupDice(dice, this);
-            }
-        }
+        UpdateVisualBag();
+        UpdateDiceCountText();
     }
 
     private void SetupAvailableDice()
@@ -107,19 +93,6 @@ public class BagBuilding : MonoBehaviour
         {
             var instantiatedDice = Instantiate(DiceEntity, availableDicePanel.transform);
             instantiatedDice.GetComponent<DiceVisualEntity>().SetupDice(dice, this);
-        }
-    }
-
-    private void AddCountToDice(DiceStats dice)
-    {
-        var currentActiveBagDice = currentBagPanel.GetComponentsInChildren<DiceVisualEntity>();
-
-        foreach (var equippedDice in currentActiveBagDice)
-        {
-            if (equippedDice.dice.UID == dice.UID)
-            {
-                //equippedDice.SetAmount()
-            }
         }
     }
 
@@ -157,26 +130,11 @@ public class BagBuilding : MonoBehaviour
         {
             button.interactable = active;
         }
-    }
 
-    private bool DiceAlreadyActiveInBag(DiceStats dice)
-    {
-        var currentActiveBagDice = currentBagPanel.GetComponentsInChildren<DiceVisualEntity>();
-
-        if (currentActiveBagDice.Length <= 0)
+        if (active)
         {
-            return false;
+            addDiceButton.GetComponent<Button>().interactable = GetDiceCount() < maxBagSize;
         }
-
-        foreach (var equippedDice in currentActiveBagDice)
-        {
-            if (equippedDice.dice.UID == dice.UID)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private DiceBag TempBagToDiceBag()
@@ -205,9 +163,9 @@ public class BagBuilding : MonoBehaviour
 
             for (int o = 0; o < returnTempBag.Count; o++)
             {
-                if (tempBag[o].dice.UID == bag.bag[i].UID)
+                if (returnTempBag[o].dice.UID == bag.bag[i].UID)
                 {
-                    tempBag[o].amount++;
+                    returnTempBag[o].amount++;
                     found = true;
                 }
             }
@@ -228,12 +186,20 @@ public class BagBuilding : MonoBehaviour
             return;
         }
 
+        if (GetDiceVariations() >= maxDiceVariants)
+        {
+            return;
+        }
+
         foreach (var tempCombo in tempBag)
         {
             if (tempCombo.dice.UID == selectedDice.UID)
             {
                 tempCombo.amount++;
                 UpdateDiceCountText();
+                UpdateVisualBag();
+                SetCanSaveBag();
+                SetAddRemoveButtons(true);
                 return;
             }
         }
@@ -241,6 +207,9 @@ public class BagBuilding : MonoBehaviour
         var newTempCombo = new BagBuildingTempCombo(selectedDice, 1);
         tempBag.Add(newTempCombo);
         UpdateDiceCountText();
+        UpdateVisualBag();
+        SetCanSaveBag();
+        SetAddRemoveButtons(true);
     }
 
 
@@ -261,10 +230,16 @@ public class BagBuilding : MonoBehaviour
                 {
                     tempBag.Remove(tempCombo);
                     UpdateDiceCountText();
+                    UpdateVisualBag();
+                    SetCanSaveBag();
+                    SetAddRemoveButtons(true);
                     return;
                 }
 
                 UpdateDiceCountText();
+                UpdateVisualBag();
+                SetCanSaveBag();
+                SetAddRemoveButtons(true);
                 return;
             }
         }
@@ -281,6 +256,11 @@ public class BagBuilding : MonoBehaviour
         return diceAmount;
     }
 
+    public int GetDiceVariations()
+    {
+        return tempBag.Count;
+    }
+
     private void UpdateDiceCountText()
     {
         diceCountTMPRO.text = $"{GetDiceCount()} / {maxBagSize}";
@@ -288,7 +268,63 @@ public class BagBuilding : MonoBehaviour
 
     private void UpdateVisualBag()
     {
+        foreach (var tempDice in tempBag)
+        {
+            bool found = false;
+            foreach (var shownDice in GetVisualDice())
+            {
+                if (tempDice.dice.UID == shownDice.dice.UID)
+                {
+                    found = true;
 
+                    shownDice.SetAmount(tempDice.amount);
+
+                    if (tempDice.amount == 0)
+                    {
+                        Destroy(shownDice.gameObject);
+                    }
+
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                var d = Instantiate(DiceEntity, currentBagPanel.transform);
+                d.GetComponent<DiceVisualEntity>().SetupDice(tempDice.dice, this, 1);
+            }
+        }
+
+        foreach (var shownDice in GetVisualDice())
+        {
+            var match = false;
+            foreach (var tempDice in tempBag)
+            {
+                if (shownDice.dice.UID == tempDice.dice.UID)
+                {
+                    match = true;
+                }
+            }
+
+            if (!match)
+            {
+                Destroy(shownDice.gameObject);
+            }
+        }
     }
 
+    private DiceVisualEntity[] GetVisualDice()
+    {
+        return currentBagPanel.GetComponentsInChildren<DiceVisualEntity>();
+    }
+
+    public void SaveBag()
+    {
+        DiceBagHelper.Instance.SaveDiceBag(TempBagToDiceBag());
+    }
+
+    private void SetCanSaveBag()
+    {
+        saveButton.GetComponent<Button>().interactable = GetDiceCount() == maxBagSize;
+    }
 }

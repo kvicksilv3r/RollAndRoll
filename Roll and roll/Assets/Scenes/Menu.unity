@@ -698,10 +698,10 @@ RectTransform:
   - {fileID: 113770094}
   m_Father: {fileID: 1394236908}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 95.270386, y: -301.72052}
-  m_SizeDelta: {x: 180.54077, y: 194.48035}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &151331440
 MonoBehaviour:
@@ -1899,7 +1899,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 677245111}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1262813133}
+        m_TargetAssemblyTypeName: BagBuilding, Assembly-CSharp
+        m_MethodName: SaveBag
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &677245111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3591,12 +3603,15 @@ MonoBehaviour:
   currentBagPanel: {fileID: 440575279}
   availableDicePanel: {fileID: 1217573545}
   addRemovePanel: {fileID: 1394236907}
+  saveButton: {fileID: 677245108}
+  addDiceButton: {fileID: 1788338754}
   DiceEntity: {fileID: 6981154497749213557, guid: 5723e37d5750ebc428ca9ebcb749d99d, type: 3}
   diceNameTMPRO: {fileID: 2082908446}
   diceDescriptionTMPRO: {fileID: 2084158190}
   diceCountTMPRO: {fileID: 1970054265}
   selectedDice: {fileID: 0}
   maxBagSize: 12
+  maxDiceVariants: 6
 --- !u!1 &1308395025
 GameObject:
   m_ObjectHideFlags: 0
@@ -4727,10 +4742,10 @@ RectTransform:
   - {fileID: 1464872872}
   m_Father: {fileID: 1394236908}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 95.270386, y: -102.24017}
-  m_SizeDelta: {x: 180.54077, y: 194.48035}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1788338756
 MonoBehaviour:
