@@ -1,10 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Linq;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 
 [System.Serializable]
 public class BagBuildingTempCombo
