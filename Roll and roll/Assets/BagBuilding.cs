@@ -70,7 +70,7 @@ public class BagBuilding : MonoBehaviour
 
         foreach (Transform child in currentBagPanel.transform)
         {
-            Destroy(child.gameObject);
+            DestroyImmediate(child.gameObject);
         }
 
         UpdateVisualBag();
@@ -288,7 +288,7 @@ public class BagBuilding : MonoBehaviour
             if (!found)
             {
                 var d = Instantiate(DiceEntity, currentBagPanel.transform);
-                d.GetComponent<DiceVisualEntity>().SetupDice(tempDice.dice, this, 1);
+                d.GetComponent<DiceVisualEntity>().SetupDice(tempDice.dice, this, tempDice.amount);
             }
         }
 

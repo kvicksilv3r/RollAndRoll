@@ -23,7 +23,7 @@ public class DiceVisualEntity : MonoBehaviour, IPointerDownHandler
 
         diceNameTMP.text = dice.displayName;
 
-        SetAmount();
+        SetAmount(amount);
     }
 
     public void SetAmount(int amount = 1)
