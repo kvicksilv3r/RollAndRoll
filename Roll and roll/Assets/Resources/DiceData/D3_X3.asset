@@ -16,4 +16,5 @@ MonoBehaviour:
   description: Three sides somehow. Each side is worth 3x.
   sides: 030000000600000009000000
   rarity: 2
+  effects: 00000000
   UID: 8d9d3f411f648d2448c87fab9ad42db5

@@ -16,4 +16,5 @@ MonoBehaviour:
   description: 'A normal dice with three sides. Not sure how that works geometrically. '
   sides: 010000000200000003000000
   rarity: 0
+  effects: 00000000
   UID: 0825586db5b1f6a489fe5715c6f6eebf

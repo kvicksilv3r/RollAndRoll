@@ -12,3 +12,11 @@ public enum Rarity
     Demonic,
     Astronomical
 }
+
+public enum DiceEffect
+{
+    Move,
+    Death,
+    Gold,
+    Heal
+}

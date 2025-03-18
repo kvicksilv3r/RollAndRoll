@@ -7,6 +7,7 @@ public class DiceStats : ScriptableObject
     public string description;
     public int[] sides;
     public Rarity rarity;
+    public DiceEffect[] effects;
     public string UID;
     private void OnValidate()
     {
