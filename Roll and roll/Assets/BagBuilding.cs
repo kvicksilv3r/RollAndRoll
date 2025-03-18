@@ -6,7 +6,6 @@ using System.Collections.Generic;
 [System.Serializable]
 public class BagBuildingTempCombo
 {
-
     public BagBuildingTempCombo(DiceStats newDice, int newAmount)
     {
         dice = newDice;

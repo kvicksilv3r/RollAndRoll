@@ -3,10 +3,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class IngameDiceVisualEntity : MonoBehaviour, IPointerDownHandler
+public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
 {
     public TextMeshProUGUI diceNameTMP;
-    public DiceStats dice;
+    public DiceStats myDice;
 
     public GameObject selected;
 
@@ -14,31 +14,33 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerDownHandler
 
     public bool consumed = true;
 
+    public GameObject deselectObject;
+
     public void SetupDice(DiceStats newDice)
     {
         consumed = false;
-        dice = newDice;
-        diceNameTMP.text = dice.displayName;
+        myDice = newDice;
+        diceNameTMP.text = myDice.displayName;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
         if (consumed)
         {
+            DiceRunController.Instance.DiceClickedOn(this);
             return;
         }
 
         print("bink bonk");
+        print(eventData.rawPointerPress.gameObject);
 
-        //use pointer up for some reason pointer down is broken.
+        if (eventData.rawPointerPress == deselectObject)
+        {
+            SetDeselected();
+            return;
+        }
 
-        //if (eventData.rawPointerPress != gameObject)
-        //{
-        //    SetDeselected();
-        //    return;
-        //}
-
-        if (selected.activeInHierarchy)
+        if (isSelected)
         {
             UseDice();
             return;
@@ -46,6 +48,7 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerDownHandler
 
         else
         {
+            DiceRunController.Instance.DiceClickedOn(this);
             SetSelected();
             return;
         }
@@ -54,19 +57,23 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerDownHandler
     private void UseDice()
     {
         SetConsumed();
-        //beep boop
+        SetDeselected();
+        DiceEffectProcessor.Instance.ActivateDice(myDice);
     }
 
     private void SetSelected()
     {
+        transform.SetSiblingIndex(0);
         selected.SetActive(true);
+        DiceRunController.Instance.SetDiceDescription(myDice);
         isSelected = true;
     }
 
-    private void SetDeselected()
+    public void SetDeselected()
     {
         selected.SetActive(false);
         isSelected = false;
+        DiceRunController.Instance.RemoveDiceDescription();
     }
 
     public void SetConsumed()

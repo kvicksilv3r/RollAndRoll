@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public class DiceRunController : MonoBehaviour
@@ -23,7 +22,10 @@ public class DiceRunController : MonoBehaviour
 
     public TextMeshProUGUI diceInBagTMP;
 
-    public List<GameObject> visualDice = new List<GameObject>();
+    public List<IngameDiceVisualEntity> visualDiceEntities = new List<IngameDiceVisualEntity>();
+
+    public TextMeshProUGUI diceDescriptionTMP;
+    public TextMeshProUGUI diceOutcomesTMP;
 
     private void Awake()
     {
@@ -77,21 +79,25 @@ public class DiceRunController : MonoBehaviour
     {
         EmptyHand();
 
+        if (dicePool.bag.Count == 0)
+        {
+            RefillBag();
+            RefillHand();
+        }
+
         for (int i = 0; i < maximumDiceToPlay; i++)
         {
             DrawDice();
         }
-
-
     }
 
     private void EmptyHand()
     {
         diceToPlayBag.bag.Clear();
 
-        foreach (var dice in visualDice)
+        foreach (var visualDie in visualDiceEntities)
         {
-            dice.GetComponent<IngameDiceVisualEntity>().SetConsumed();
+            visualDie.SetConsumed();
         }
     }
 
@@ -123,13 +129,35 @@ public class DiceRunController : MonoBehaviour
         else
         {
             diceIndex--;
-            visualDice[diceIndex].GetComponent<IngameDiceVisualEntity>().SetupDice(diceToPlayBag.bag[diceIndex]);
+            visualDiceEntities[diceIndex].SetupDice(diceToPlayBag.bag[diceIndex]);
         }
     }
 
     public void ActiveRedraw()
     {
         //idk tbh
+    }
+
+    public void DiceClickedOn(IngameDiceVisualEntity gotClicked)
+    {
+        foreach (var visualDie in visualDiceEntities)
+        {
+            visualDie.SetDeselected();
+        }
+    }
+
+    public void SetDiceDescription(DiceStats dice)
+    {
+        diceDescriptionTMP.text = dice.description;
+
+        diceOutcomesTMP.text = string.Join("  ", dice.sides);
+    }
+
+    public void RemoveDiceDescription()
+    {
+        diceDescriptionTMP.text = "";
+
+        diceOutcomesTMP.text = "";
     }
 
     public void UpdateDiceAmountText()

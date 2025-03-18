@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16148c1664b791d4b981a904b67d5706, type: 3}
-  m_Name: D3_DEVIL_DEATH_DICE
+  m_Name: D2_Healing_Dice
   m_EditorClassIdentifier: 
-  displayName: Dice of Lucifer
-  description: Mors gratia mortis
-  sides: 060000000600000006000000
-  rarity: 9
-  effects: 01000000
-  UID: cd948f9bf77922146937fce3d2abc96f
+  displayName: D2 Healing
+  description: Restores a wee bit of health. Maybe
+  sides: 0000000001000000
+  rarity: 3
+  effects: 03000000
+  UID: bb7bc7f7a13028348a301bad3c2353c6

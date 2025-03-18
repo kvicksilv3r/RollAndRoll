@@ -1,0 +1,4 @@
+Dice name,UID,Cost 1,Cost 2,Cost 3,Cost 4,Cost 5,Cost 6,Cost 7,Cost 8,Cost 9,Cost 10,Cost 11,Cost 12
+Healing D2,bb7bc7f7a13028348a301bad3c2353c6,3,12,100,500,-1,-1,-1,-1,-1,-1,-1,-1
+D4 vanilla,480899e01a8ec8442a5e670f96744040,3,9,15,21,27,33,39,55,71,100,130,200
+D6 vanilla,0f01b9c8d8919ec4683f4f4deac0a2e3,3,9,27,39,55,71,100,130,200,300,500,1000

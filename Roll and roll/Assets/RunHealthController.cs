@@ -1,7 +1,5 @@
 using UnityEngine;
-using TMPro;
 using System.Collections.Generic;
-using System;
 using UnityEngine.UI;
 
 
@@ -36,10 +34,17 @@ public class RunHealthController : MonoBehaviour
 
     public void TakeDamage(int damage = 1)
     {
-        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
 
         UpdateHpVisual();
 
+        CheckDeath();
+    }
+
+    public void TakeHealing(int healing = 1)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + healing, 1, startingHealth);
+        UpdateHpVisual();
         CheckDeath();
     }
 

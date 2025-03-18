@@ -49,15 +49,14 @@ public class Player : MonoBehaviour
         currentBlock = nextBlock;
     }
 
-    public void AttemptStartMove()
+    public void AttemptStartMove(int moveCount)
     {
-        if (!canMove || !run.canUseRolledValue)
-        {
-            return;
-        }
+        //    if (!canMove || !run.canUseRolledValue)
+        //    {
+        //        return;
+        //    }
 
-        var moves = run.lastRoll;
-        run.ClaimRoll();
+        var moves = moveCount;
 
         MoveStep(moves, moves > 0);
     }
