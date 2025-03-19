@@ -28,16 +28,15 @@ public class DiceBagHelper : MonoBehaviour
 
     public DiceBag GetPlayerDiceBag()
     {
-
         if (playerDiceBag == null || playerDiceBag.bag.IsEmpty())
         {
-            LoadDiceBag();
+            LoadPlayerDiceBag();
         }
 
         return playerDiceBag;
     }
 
-    public void LoadDiceBag()
+    public void LoadPlayerDiceBag()
     {
         string savedBag = FetchSavedPlayerBag();
 
