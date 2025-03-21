@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
     public TrackBlock currentBlock;
     public Track track;
-    public TestRun run;
 
     public bool canMove = true;
 
@@ -47,6 +46,12 @@ public class Player : MonoBehaviour
         transform.DOJump(nextBlock.playerPlace.position, 1, 1, jumpTime, false).OnComplete(() => MoveStep(moves - 1, forward));
         transform.DOLookAt(nextBlock.playerPlace.position, jumpTime, AxisConstraint.Y);
         currentBlock = nextBlock;
+        BonkBlock();
+    }
+
+    private void BonkBlock()
+    {
+        currentBlock.Bonk();
     }
 
     public void AttemptStartMove(int moveCount)

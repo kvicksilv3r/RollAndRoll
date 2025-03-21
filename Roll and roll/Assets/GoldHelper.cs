@@ -1,8 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GoldHelper : MonoBehaviour
 {
     public static GoldHelper Instance;
+
+    public bool tryMakeTempGoldPerm = false;
+
+    public UnityEvent goldValueUpdated;
 
     private void Awake()
     {
@@ -11,7 +16,27 @@ public class GoldHelper : MonoBehaviour
 
     private void Start()
     {
-        TryMakeTempGoldPermanent();
+        if (tryMakeTempGoldPerm)
+        {
+            TryMakeTempGoldPermanent();
+        }
+    }
+
+    public void AddTemporaryGold(int addedTempGold)
+    {
+        var tempGold = GetTemporaryGold();
+        tempGold += addedTempGold;
+        SetTemporaryGold(tempGold);
+    }
+
+    private void SetTemporaryGold(int tempGold)
+    {
+        PlayerPrefsIO.Instance.WriteInt(PlayerPrefsIO.Instance.keys.TEMPORARY_GOLD, tempGold);
+    }
+
+    public int GetTemporaryGold()
+    {
+        return PlayerPrefsIO.Instance.GetInt(PlayerPrefsIO.Instance.keys.TEMPORARY_GOLD);
     }
 
     public void TryMakeTempGoldPermanent()
@@ -27,8 +52,9 @@ public class GoldHelper : MonoBehaviour
 
         PlayerPrefsIO.Instance.WriteInt(PlayerPrefsIO.Instance.keys.TEMPORARY_GOLD, 0);
 
-        //play animation or whatever, idk
+        goldValueUpdated.Invoke();
 
+        //play animation or whatever, idk
     }
 
     public void AddPlayerGold(int addedGold)

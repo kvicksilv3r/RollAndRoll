@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using System.IO;
 
 public class ShopController : MonoBehaviour
 {
@@ -15,8 +16,7 @@ public class ShopController : MonoBehaviour
 
     public static ShopController Instance;
 
-    public TextMeshProUGUI diceTitleTMP;
-    public TextMeshProUGUI diceDescriptionTMP;
+    public DiceDescriptionController descriptionController;
 
     public TextMeshProUGUI costTMP;
     public TextMeshProUGUI ownedGoldTMP;
@@ -24,6 +24,8 @@ public class ShopController : MonoBehaviour
     public GameObject shopPanel;
 
     public DiceStats selectedDice;
+
+    private int currentCost = 0;
 
     public void OpenShop()
     {
@@ -33,6 +35,8 @@ public class ShopController : MonoBehaviour
         }
 
         SetupShop();
+        SetupDescription();
+        RemoveDiceDescription();
 
         shopPanel.SetActive(true);
     }
@@ -42,6 +46,12 @@ public class ShopController : MonoBehaviour
         if (!Instance)
         {
             Instance = this;
+        }
+
+        if (Instance != this)
+        {
+            print($"Too many {this}, killing myself");
+            Destroy(this);
         }
     }
 
@@ -58,7 +68,7 @@ public class ShopController : MonoBehaviour
 
     private void SetupWares()
     {
-        var ownedDice = DiceBagHelper.Instance.GetPlayerDiceBag();
+        var ownedDice = DiceCollectionHelper.Instance.GetUnlockedDice();
         var numOfDice = Mathf.Min(availableDice.Count, visualShopDice.Count);
 
         for (int i = 0; i < numOfDice; i++)
@@ -77,11 +87,63 @@ public class ShopController : MonoBehaviour
 
     public void Buy()
     {
-        //if can buy, buy else nah
-        //update gold 
+        if (!selectedDice)
+        {
+            return;
+        }
+
+        if (GoldHelper.Instance.GetPlayerGold() < currentCost)
+        {
+            return;
+        }
+
+        GoldHelper.Instance.RemovePlayerGold(currentCost);
+
+        DiceCollectionHelper.Instance.UnlockNewDice(selectedDice);
+
+        DiceClickedOn();
+
+        DiceDeselected();
+
+        RemoveDiceDescription();
+
+        UpdateCost();
+
+        UpdateGold();
+
+        SetupWares();
     }
 
-    internal void DiceClickedOn(ShopDiceEntity shopDiceEntity)
+    public int FetchCost()
+    {
+        var raw = pricesCSV.text.Split('\n');
+
+        for (int i = 1; i < raw.Length; i++)
+        {
+            var choppedData = raw[i].Split(',');
+            if (choppedData[uidIndex] == selectedDice.UID)
+            {
+                return int.Parse(choppedData[priceIndex]);
+            }
+        }
+
+        return 9999;
+    }
+
+    public void UpdateCost()
+    {
+        if (selectedDice)
+        {
+            costTMP.text = currentCost.ToString();
+        }
+
+        else
+        {
+            costTMP.text = "-";
+        }
+    }
+
+    internal void DiceClickedOn()
     {
         foreach (var shopDie in visualShopDice)
         {
@@ -89,15 +151,33 @@ public class ShopController : MonoBehaviour
         }
     }
 
-    internal void SetDiceDescription(DiceStats myDice)
+    private void SetupDescription()
     {
-        diceTitleTMP.text = myDice.name;
-        diceDescriptionTMP.text = myDice.description;
+        descriptionController.SetDisplayedInfo(true, true, true);
+    }
+
+    public void SetSelectedDice(DiceStats myDice)
+    {
+        selectedDice = myDice;
+        SetDiceDescription(myDice);
+        currentCost = FetchCost();
+        UpdateCost();
+    }
+
+    public void SetDiceDescription(DiceStats myDice)
+    {
+        descriptionController.SetDiceDescription(myDice);
     }
 
     public void RemoveDiceDescription()
     {
-        diceTitleTMP.text = "";
-        diceDescriptionTMP.text = "";
+        descriptionController.RemoveDiceDescription();
+    }
+
+    internal void DiceDeselected()
+    {
+        selectedDice = null;
+        UpdateCost();
+        RemoveDiceDescription();
     }
 }

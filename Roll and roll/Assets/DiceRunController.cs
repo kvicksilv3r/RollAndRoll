@@ -27,11 +27,23 @@ public class DiceRunController : MonoBehaviour
     public TextMeshProUGUI diceDescriptionTMP;
     public TextMeshProUGUI diceOutcomesTMP;
 
+    public DiceDescriptionController diceDescriptionController;
+
+    public int passedGoGold = 2;
+
+    public TextMeshProUGUI collectedGoldTMP;
+
     private void Awake()
     {
         if (!Instance)
         {
             Instance = this;
+        }
+
+        if (Instance != this)
+        {
+            print($"Too many {this}, killing myself");
+            Destroy(this);
         }
     }
 
@@ -44,6 +56,8 @@ public class DiceRunController : MonoBehaviour
     {
         SetupBags();
         RefillBag();
+        SetupDescription();
+        RemoveDiceDescription();
         SetupHealth();
     }
 
@@ -146,18 +160,19 @@ public class DiceRunController : MonoBehaviour
         }
     }
 
+    private void SetupDescription()
+    {
+        diceDescriptionController.SetDisplayedInfo(false, true, true);
+    }
+
     public void SetDiceDescription(DiceStats dice)
     {
-        diceDescriptionTMP.text = dice.description;
-
-        diceOutcomesTMP.text = string.Join("  ", dice.sides);
+        diceDescriptionController.SetDiceDescription(dice);
     }
 
     public void RemoveDiceDescription()
     {
-        diceDescriptionTMP.text = "";
-
-        diceOutcomesTMP.text = "";
+        diceDescriptionController.RemoveDiceDescription();
     }
 
     public void UpdateDiceAmountText()
@@ -168,5 +183,16 @@ public class DiceRunController : MonoBehaviour
     public void SetupHealth()
     {
         RunHealthController.Instance.SetupHealth();
+    }
+
+    public void PassedGo()
+    {
+        GoldHelper.Instance.AddTemporaryGold(passedGoGold);
+        SetGoldNumber(GoldHelper.Instance.GetTemporaryGold());
+    }
+
+    public void SetGoldNumber(int gold)
+    {
+        collectedGoldTMP.text = gold.ToString();
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 [System.Serializable]
 public class BagBuildingTempCombo
@@ -32,18 +33,24 @@ public class BagBuilding : MonoBehaviour
 
     public GameObject DiceEntity;
 
-    public TextMeshProUGUI diceNameTMPRO;
-    public TextMeshProUGUI diceDescriptionTMPRO;
     public TextMeshProUGUI diceCountTMPRO;
 
     public DiceStats selectedDice;
+
+    public DiceDescriptionController descriptionController;
 
     public int maxBagSize = 12;
     public int maxDiceVariants = 6;
 
     private void Awake()
     {
+        SetupDescription();
         RemoveDiceInfo();
+    }
+
+    private void SetupDescription()
+    {
+        descriptionController.SetDisplayedInfo(true, true, true);
     }
 
     public void OpenBagBuilding()
@@ -106,16 +113,14 @@ public class BagBuilding : MonoBehaviour
 
     public void ShowDiceInfo(DiceStats dice)
     {
-        diceNameTMPRO.text = dice.displayName;
-        diceDescriptionTMPRO.text = dice.description;
+        descriptionController.SetDiceDescription(dice);
 
         SetAddRemoveButtons(true);
     }
 
     public void RemoveDiceInfo()
     {
-        diceNameTMPRO.text = "";
-        diceDescriptionTMPRO.text = "";
+        descriptionController.RemoveDiceDescription();
 
         SetAddRemoveButtons(false);
     }
@@ -207,7 +212,6 @@ public class BagBuilding : MonoBehaviour
         SetCanSaveBag();
         SetAddRemoveButtons(true);
     }
-
 
     public void TryRemoveDice()
     {

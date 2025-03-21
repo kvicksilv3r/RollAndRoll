@@ -10,6 +10,12 @@ public class DiceEffectProcessor : MonoBehaviour
         {
             Instance = this;
         }
+
+        if (Instance != this)
+        {
+            print($"Too many {this}, killing myself");
+            Destroy(this);
+        }
     }
 
     public void ActivateDice(DiceStats activatedDice)
@@ -57,6 +63,7 @@ public class DiceEffectProcessor : MonoBehaviour
     private void Heal(DiceStats dice)
     {
         var roll = RollDie(dice);
+        RunHealthController.Instance.TakeHealing(roll);
     }
 
     private int RollDie(DiceStats dice)

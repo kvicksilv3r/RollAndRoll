@@ -48,6 +48,22 @@ public class DiceCollectionHelper : MonoBehaviour
         allDice.bag = Resources.LoadAll<DiceStats>("DiceData").ToList();
     }
 
+    public void UnlockNewDice(DiceStats newDice)
+    {
+        unlockedDice.Add(newDice);
+
+        List<string> bagContent = new List<string>();
+
+        foreach (var die in unlockedDice.bag)
+        {
+            bagContent.Add(die.UID);
+        }
+
+        var bagString = string.Join(',', bagContent);
+
+        PlayerPrefsIO.Instance.WriteString(PlayerPrefsIO.Instance.keys.UNLOCKED_DICE, bagString);
+    }
+
     private void SetupUnlockedDice()
     {
         if (unlockedDice.bag.Count > 0)

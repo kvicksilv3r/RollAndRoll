@@ -8,6 +8,7 @@ public class GoldDisplay : MonoBehaviour
     void Start()
     {
         UpdateGold();
+        GoldHelper.Instance.goldValueUpdated.AddListener(UpdateGold);
     }
 
     public void UpdateGold()

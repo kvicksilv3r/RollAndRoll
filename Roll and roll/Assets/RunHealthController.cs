@@ -17,13 +17,16 @@ public class RunHealthController : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
+        if (!Instance)
         {
-            print("TOO MANY " + this.name);
-            Destroy(this);
+            Instance = this;
         }
 
-        Instance = this;
+        if (Instance != this)
+        {
+            print($"Too many {this}, killing myself");
+            Destroy(this);
+        }
     }
 
     public void SetupHealth()
@@ -35,9 +38,7 @@ public class RunHealthController : MonoBehaviour
     public void TakeDamage(int damage = 1)
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
-
         UpdateHpVisual();
-
         CheckDeath();
     }
 

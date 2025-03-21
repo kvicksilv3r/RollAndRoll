@@ -1,18 +1,34 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class Track : MonoBehaviour
 {
     public List<TrackBlock> trackBlocks = new List<TrackBlock>();
 
-    public Track Instance;
+    public static Track Instance;
+
+    public UnityEvent globalBonk;
+    public TrackBlock latestBonk;
 
     private void Awake()
     {
-        Instance = this;
+        if (!Instance)
+        {
+            Instance = this;
+        }
+
+        if (Instance != this)
+        {
+            print($"Too many {this}, killing myself");
+            Destroy(this);
+        }
+    }
+
+    public void BlockBonked(TrackBlock bonkedBlock)
+    {
+        latestBonk = bonkedBlock;
+        globalBonk.Invoke();
     }
 
     public TrackBlock GetNextBlock(TrackBlock currentBlock)

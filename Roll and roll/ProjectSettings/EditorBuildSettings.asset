@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: a9e635ae638c81547a8d9733e0d99b27
   - enabled: 1
-    path: Assets/Scenes/SampleTestRun.unity
+    path: Assets/Scenes/Purgatory1.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: f6e1bf4610e2b3b48842738b450d2f29, type: 2}

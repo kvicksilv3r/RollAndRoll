@@ -26,7 +26,7 @@ public class ShopDiceEntity : MonoBehaviour, IPointerClickHandler
     {
         if (consumed)
         {
-            ShopController.Instance.DiceClickedOn(this);
+            ShopController.Instance.DiceClickedOn();
             return;
         }
 
@@ -40,13 +40,15 @@ public class ShopDiceEntity : MonoBehaviour, IPointerClickHandler
 
         if (isSelected)
         {
+            ShopController.Instance.DiceDeselected();
             SetDeselected();
             return;
         }
 
         else
         {
-            ShopController.Instance.DiceClickedOn(this);
+            ShopController.Instance.DiceClickedOn();
+            ShopController.Instance.SetSelectedDice(myDice);
             SetSelected();
             return;
         }
@@ -56,7 +58,6 @@ public class ShopDiceEntity : MonoBehaviour, IPointerClickHandler
     {
         transform.SetSiblingIndex(0);
         selected.SetActive(true);
-        ShopController.Instance.SetDiceDescription(myDice);
         isSelected = true;
     }
 

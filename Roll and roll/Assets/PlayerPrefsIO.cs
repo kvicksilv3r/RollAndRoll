@@ -14,7 +14,7 @@ public class PlayerPrefsIO : MonoBehaviour
 
         if (Instance != this)
         {
-            print("Too many PlayerPrefIO, killing myself");
+            print($"Too many {this}, killing myself");
             Destroy(this);
         }
     }

@@ -36,6 +36,12 @@ public class DiceBagHelper : MonoBehaviour
         return playerDiceBag;
     }
 
+    public void AddDiceToPlayerBag(DiceStats newDice)
+    {
+        playerDiceBag.bag.Add(newDice);
+        SaveDiceBag(playerDiceBag);
+    }
+
     public void LoadPlayerDiceBag()
     {
         string savedBag = FetchSavedPlayerBag();

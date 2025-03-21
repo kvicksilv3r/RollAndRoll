@@ -11,6 +11,12 @@ public class PlayerMovementController : MonoBehaviour
         {
             Instance = this;
         }
+
+        if (Instance != this)
+        {
+            print($"Too many {this}, killing myself");
+            Destroy(this);
+        }
     }
 
     public void InitiateMove(int steps)

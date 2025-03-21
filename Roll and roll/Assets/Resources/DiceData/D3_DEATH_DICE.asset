@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16148c1664b791d4b981a904b67d5706, type: 3}
   m_Name: D3_DEATH_DICE
   m_EditorClassIdentifier: 
-  displayName: Death dice D3
-  description: Three sides of Death.
-  sides: 010000000200000003000000
+  displayName: Deathstalker Dice
+  description: 'Rolls for death. May the odds be in your favor. '
+  sides: 000000000100000002000000
   rarity: 9
   effects: 01000000
   UID: 40c2fcf6d7230b543ac72f2d27c68fda
