@@ -20,7 +20,7 @@ public class DiceDescriptionController : MonoBehaviour
 
     public void SetDiceDescription(DiceStats dice)
     {
-        diceNameTMP.text = dice.name;
+        diceNameTMP.text = dice.displayName;
 
         diceDescriptionTMP.text = dice.description;
 

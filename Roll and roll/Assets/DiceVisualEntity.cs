@@ -24,6 +24,8 @@ public class DiceVisualEntity : MonoBehaviour, IPointerDownHandler
         diceNameTMP.text = dice.displayName;
 
         SetAmount(amount);
+
+        EventBus.Instance.m_AssembleBagEquippedDiceClicked.AddListener(SetDeselected);
     }
 
     public void SetAmount(int amount = 1)
@@ -59,6 +61,7 @@ public class DiceVisualEntity : MonoBehaviour, IPointerDownHandler
 
     private void SetSelected()
     {
+        EventBus.Instance.m_AssembleBagEquippedDiceClicked.Invoke();
         bagBuilder.SetSelectedDice(dice);
         selected.SetActive(true);
         isSelected = true;

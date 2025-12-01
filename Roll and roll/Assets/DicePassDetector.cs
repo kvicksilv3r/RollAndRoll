@@ -25,8 +25,14 @@ public class DicePassDetector : MonoBehaviour
 
         if (currentBonk == second && lastBonk == first)
         {
-            DiceRunController.Instance.PassedGo();
+            PassedGo();
         }
+    }
+
+    private static void PassedGo()
+    {
+        PurgatoryEventBus.Instance.m_PassedGo.Invoke();
+        DiceRunController.Instance.PassedGo();
     }
 
     private void OnDrawGizmosSelected()
