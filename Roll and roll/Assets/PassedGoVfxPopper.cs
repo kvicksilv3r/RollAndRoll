@@ -11,7 +11,7 @@ public class PassedGoVfxPopper : MonoBehaviour
             vfx = GetComponentInChildren<ParticleSystem>();
         }
 
-        if (vfx != null)
+        if (vfx == null)
         {
             print("Popper has no VFX");
         }

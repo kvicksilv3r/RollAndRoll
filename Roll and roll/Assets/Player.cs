@@ -41,6 +41,10 @@ public class Player : MonoBehaviour
         else
         {
             nextBlock = track.GetPreviousBlock(currentBlock);
+            if (!nextBlock.BlockDiscovered)
+            {
+                return;
+            }
         }
 
         transform.DOJump(nextBlock.playerPlace.position, 1, 1, jumpTime, false).OnComplete(() => MoveStep(moves - 1, forward));
