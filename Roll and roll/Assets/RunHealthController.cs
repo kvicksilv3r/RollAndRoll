@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class RunHealthController : MonoBehaviour
@@ -9,6 +10,8 @@ public class RunHealthController : MonoBehaviour
     public int currentHealth;
 
     public static RunHealthController Instance;
+
+    public TextMeshProUGUI lifeCountTMP;
 
     public Texture2D brokenHeart;
     public Texture2D heart;
