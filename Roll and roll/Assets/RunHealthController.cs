@@ -16,7 +16,7 @@ public class RunHealthController : MonoBehaviour
     public Texture2D brokenHeart;
     public Texture2D heart;
 
-    public List<GameObject> heartObjects = new List<GameObject>();
+    public RawImage heartVisual;
 
     private void Awake()
     {
@@ -34,6 +34,8 @@ public class RunHealthController : MonoBehaviour
 
     public void SetupHealth()
     {
+        //TODO:
+        //Read starting health from config.
         currentHealth = startingHealth;
         UpdateHpVisual();
     }
@@ -54,10 +56,7 @@ public class RunHealthController : MonoBehaviour
 
     public void UpdateHpVisual()
     {
-        for (int i = 0; i < heartObjects.Count; i++)
-        {
-            heartObjects[i].GetComponent<RawImage>().texture = i < currentHealth ? heart : brokenHeart;
-        }
+        lifeCountTMP.text = currentHealth.ToString();
     }
 
     private void CheckDeath()
@@ -70,6 +69,8 @@ public class RunHealthController : MonoBehaviour
 
     private void Death()
     {
+        heartVisual.texture = brokenHeart;
         DiceRunController.Instance.StopTheShow();
+
     }
 }
