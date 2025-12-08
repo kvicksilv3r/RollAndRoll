@@ -1,6 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
+public enum TrackBlockType
+{
+    Normal,
+    Gold,
+    Extract,
+    Proceed
+}
+
 public class TrackBlock : MonoBehaviour
 {
     public Transform playerPlace;
@@ -10,11 +18,26 @@ public class TrackBlock : MonoBehaviour
     [ColorUsage(true, true)]
     public Color glowingColor;
     [ColorUsage(true, true)]
-    public Color defaultColor;
-    [ColorUsage(true, true)]
     public Color discoveredColor;
 
-    private Color preferredColor;
+    [ColorUsage(true, true)]
+    public Color normalBlockColor;
+
+    [ColorUsage(true, true)]
+    public Color normalBlockDiscoveredColor;
+
+    [ColorUsage(true, true)]
+    public Color goldBlockColor;
+
+    [ColorUsage(true, true)]
+    public Color goldBlockDiscoveredColor;
+
+    public GameObject goldBlockBling;
+
+    public TrackBlockType blockType;
+    private TrackBlockType savedBlockType = TrackBlockType.Normal;
+
+    public Transform holster;
 
     //TODO
     //Make discovered block change color
@@ -31,13 +54,20 @@ public class TrackBlock : MonoBehaviour
         myMat = GetComponent<Renderer>().material;
         GetComponent<Renderer>().material = myMat;
 
-        if (blockDiscovered)
+        switch (blockType)
         {
-            preferredColor = discoveredColor;
-        }
-        else
-        {
-            preferredColor = defaultColor;
+            case TrackBlockType.Normal:
+                discoveredColor = normalBlockDiscoveredColor;
+                break;
+            case TrackBlockType.Gold:
+                discoveredColor = goldBlockDiscoveredColor;
+                break;
+            case TrackBlockType.Extract:
+                break;
+            case TrackBlockType.Proceed:
+                break;
+            default:
+                break;
         }
     }
 
@@ -60,10 +90,45 @@ public class TrackBlock : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
             timer += Time.deltaTime;
-            var c = Color.Lerp(glowingColor, preferredColor, timer / emissionFlashTime);
+            var c = Color.Lerp(glowingColor, discoveredColor, timer / emissionFlashTime);
             myMat.SetColor("_EmissionColor", c);
         }
 
         yield return null;
+    }
+
+    private void OnValidate()
+    {
+        if (savedBlockType == blockType)
+        {
+            return;
+        }
+
+        savedBlockType = blockType;
+
+        if (!myMat)
+        {
+            myMat = GetComponent<Renderer>().material;
+        }
+
+        switch (blockType)
+        {
+            case TrackBlockType.Normal:
+                SetBaseColor(normalBlockColor);
+                break;
+            case TrackBlockType.Gold:
+                SetBaseColor(goldBlockColor);
+                Instantiate(goldBlockBling, holster.transform);
+                break;
+            case TrackBlockType.Extract:
+                break;
+            case TrackBlockType.Proceed:
+                break;
+        }
+    }
+
+    private void SetBaseColor(Color color)
+    {
+        myMat.SetColor("_BaseColor", color);
     }
 }
