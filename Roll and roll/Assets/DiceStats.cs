@@ -9,6 +9,8 @@ public class DiceStats : ScriptableObject
     public Rarity rarity;
     public DiceEffect[] effects;
     public string UID;
+    [ColorUsage(false)]
+    public Color rollResultColor;
     private void OnValidate()
     {
 #if UNITY_EDITOR

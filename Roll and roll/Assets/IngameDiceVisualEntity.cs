@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,13 +15,25 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
 
     public bool consumed = true;
 
+    public float rollAnimationTime = 0.5f;
+    public float timeBetweenAnimationRolls = 0.05f;
+
     public GameObject deselectObject;
+
+    private Color baseTextColor;
+
+    private void Awake()
+    {
+        baseTextColor = diceNameTMP.color;
+    }
 
     public void SetupDice(DiceStats newDice)
     {
+        StopAllCoroutines();
         consumed = false;
         myDice = newDice;
         diceNameTMP.text = myDice.displayName;
+        diceNameTMP.color = baseTextColor;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -58,7 +71,34 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
     {
         SetConsumed();
         SetDeselected();
-        DiceEffectProcessor.Instance.ActivateDice(myDice);
+        var results = DiceEffectProcessor.Instance.ActivateDice(myDice);
+        StartCoroutine(ResultsGoBrr(results));
+    }
+
+    IEnumerator ResultsGoBrr(int rollResult)
+    {
+        float currentTime = 0;
+
+        diceNameTMP.color = myDice.rollResultColor;
+        diceNameTMP.text = RandomNumber().ToString();
+
+        while (currentTime < rollAnimationTime)
+        {
+            yield return new WaitForSeconds(timeBetweenAnimationRolls);
+            currentTime += timeBetweenAnimationRolls;
+            diceNameTMP.text = RandomNumber().ToString();
+        }
+
+        diceNameTMP.text = rollResult.ToString();
+
+        yield return new WaitForSeconds(0.5f);
+
+        MarkConsumed();
+    }
+
+    private int RandomNumber()
+    {
+        return myDice.sides[UnityEngine.Random.Range(0, myDice.sides.Length)];
     }
 
     private void SetSelected()
@@ -79,6 +119,11 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
     public void SetConsumed()
     {
         consumed = true;
+    }
+
+    public void MarkConsumed()
+    {
+        diceNameTMP.color = baseTextColor;
         diceNameTMP.text = "Consumed";
     }
 

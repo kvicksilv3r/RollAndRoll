@@ -18,52 +18,59 @@ public class DiceEffectProcessor : MonoBehaviour
         }
     }
 
-    public void ActivateDice(DiceStats activatedDice)
+    public int ActivateDice(DiceStats activatedDice)
     {
+        int roll = 0;
         foreach (var effect in activatedDice.effects)
         {
             switch (effect)
             {
                 case DiceEffect.Move:
-                    Move(activatedDice);
+                   roll = Move(activatedDice);
                     break;
                 case DiceEffect.Death:
-                    Death(activatedDice);
+                    roll = Death(activatedDice);
                     break;
                 case DiceEffect.Gold:
-                    Gold(activatedDice);
+                    roll = Gold(activatedDice);
                     break;
                 case DiceEffect.Heal:
-                    Heal(activatedDice);
+                    roll = Heal(activatedDice);
                     break;
                 default:
                     print("Broken effect on " + activatedDice.name);
-                    return;
+                    return 0;
             }
         }
+
+        return roll;
     }
 
-    private void Move(DiceStats dice)
+    private int Move(DiceStats dice)
     {
         var roll = RollDie(dice);
         PlayerMovementController.Instance.InitiateMove(roll);
+        return roll;
     }
 
-    private void Death(DiceStats dice)
+    private int Death(DiceStats dice)
     {
         var roll = RollDie(dice);
         RunHealthController.Instance.TakeDamage(roll);
+        return roll;
     }
 
-    private void Gold(DiceStats dice)
+    private int Gold(DiceStats dice)
     {
         var roll = RollDie(dice);
+        return roll;
     }
 
-    private void Heal(DiceStats dice)
+    private int Heal(DiceStats dice)
     {
         var roll = RollDie(dice);
         RunHealthController.Instance.TakeHealing(roll);
+        return roll;
     }
 
     private int RollDie(DiceStats dice)

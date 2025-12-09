@@ -18,3 +18,4 @@ MonoBehaviour:
   rarity: 2
   effects: 00000000
   UID: 8d9d3f411f648d2448c87fab9ad42db5
+  rollResultColor: {r: 1, g: 1, b: 1, a: 1}
