@@ -39,10 +39,6 @@ public class TrackBlock : MonoBehaviour
 
     public Transform holster;
 
-    //TODO
-    //Make discovered block change color
-    //Fix fucked colors
-
     private bool blockDiscovered = false;
 
     public float emissionFlashTime = 0.5f;
@@ -118,7 +114,6 @@ public class TrackBlock : MonoBehaviour
                 break;
             case TrackBlockType.Gold:
                 SetBaseColor(goldBlockColor);
-                Instantiate(goldBlockBling, holster.transform);
                 break;
             case TrackBlockType.Extract:
                 break;

@@ -59,6 +59,7 @@ public class DiceRunController : MonoBehaviour
         SetupDescription();
         RemoveDiceDescription();
         SetupHealth();
+        SetGoldNumber(GoldHelper.Instance.GetTemporaryGold());
     }
 
     private void RefillBag()

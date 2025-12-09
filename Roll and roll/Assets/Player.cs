@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
         transform.position = currentBlock.playerPlace.position;
 
         DOTween.Init();
+
+        BonkBlock();
     }
 
     public void MoveStep(int moves, bool forward)
@@ -43,6 +45,7 @@ public class Player : MonoBehaviour
             nextBlock = track.GetPreviousBlock(currentBlock);
             if (!nextBlock.BlockDiscovered)
             {
+                //Can't move backwards to a non-discovered block
                 return;
             }
         }
