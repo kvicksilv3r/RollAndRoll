@@ -7,6 +7,8 @@ public class PurgatoryEventBus : MonoBehaviour
 
     public UnityEvent m_PassedGo;
 
+    public UnityEvent m_ActivateEvent;
+
     private void Awake()
     {
         Instance = this;

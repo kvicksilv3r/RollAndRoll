@@ -15,6 +15,8 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
 
     public bool consumed = true;
 
+    private bool effectQueued = false;
+
     public float rollAnimationTime = 0.5f;
     public float timeBetweenAnimationRolls = 0.05f;
 
@@ -55,7 +57,7 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
 
         if (isSelected)
         {
-            UseDice();
+            ManuallyActivateDice();
             return;
         }
 
@@ -67,17 +69,24 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void UseDice()
+    private void ManuallyActivateDice()
     {
         SetConsumed();
         SetDeselected();
-        var results = DiceEffectProcessor.Instance.ActivateDice(myDice);
+        var results = DiceEffectProcessor.Instance.ActivateDice(myDice, true);
         StartCoroutine(ResultsGoBrr(results));
+
+        //Exile dice
+        if (myDice.exileOnPlay)
+        {
+            DiceRunController.Instance.RemoveDiceFromPlayerBag(myDice);
+        }
     }
 
     IEnumerator ResultsGoBrr(int rollResult)
     {
         float currentTime = 0;
+        effectQueued = true;
 
         diceNameTMP.color = myDice.rollResultColor;
         diceNameTMP.text = RandomNumber().ToString();
@@ -90,6 +99,9 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
         }
 
         diceNameTMP.text = rollResult.ToString();
+
+        PurgatoryEventBus.Instance.m_ActivateEvent.Invoke();
+        effectQueued = false;
 
         yield return new WaitForSeconds(0.5f);
 
@@ -116,6 +128,45 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
         DiceRunController.Instance.RemoveDiceDescription();
     }
 
+    public void DiscardDice()
+    {
+        if (!myDice)
+        {
+            return;
+        }
+
+        StopAllCoroutines();
+
+        if (effectQueued)
+        {
+            PurgatoryEventBus.Instance.m_ActivateEvent.Invoke();
+        }
+
+        if (consumed)
+        {
+            return;
+        }
+
+        if (myDice.exileOnDiscard)
+        {
+            DiceRunController.Instance.RemoveDiceFromPlayerBag(myDice);
+        }
+
+        if (myDice.discardEffects.Length > 0)
+        {
+            var results = DiceEffectProcessor.Instance.ActivateDice(myDice, myDice.discardEffects, false);
+        }
+
+        SetConsumed();
+        MarkConsumed();
+    }
+
+    public void ConsumeDice()
+    {
+        SetConsumed();
+        MarkConsumed();
+    }
+
     public void SetConsumed()
     {
         if (!myDice)
@@ -124,12 +175,6 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
         }
 
         consumed = true;
-
-        //Exile dice
-        if (myDice.exileOnPlay)
-        {
-            DiceRunController.Instance.RemoveDiceFromPlayerBag(myDice);
-        }
     }
 
     public void MarkConsumed()

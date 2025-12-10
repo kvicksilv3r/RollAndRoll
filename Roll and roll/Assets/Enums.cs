@@ -18,5 +18,6 @@ public enum DiceEffect
     Move,
     Death,
     Gold,
-    Heal
+    Heal,
+    None
 }

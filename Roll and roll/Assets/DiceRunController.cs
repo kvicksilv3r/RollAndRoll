@@ -117,7 +117,8 @@ public class DiceRunController : MonoBehaviour
 
         foreach (var visualDie in visualDiceEntities)
         {
-            visualDie.SetConsumed();
+            visualDie.DiscardDice();
+            visualDie.ConsumeDice();
         }
     }
 
