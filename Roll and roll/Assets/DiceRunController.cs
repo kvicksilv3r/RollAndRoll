@@ -90,6 +90,11 @@ public class DiceRunController : MonoBehaviour
         dicePool = new DiceBag();
     }
 
+    public void RemoveDiceFromPlayerBag(DiceStats toRemove)
+    {
+        playerBag.Remove(toRemove);
+    }
+
     public void RefillHand()
     {
         EmptyHand();

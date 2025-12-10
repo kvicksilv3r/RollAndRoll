@@ -118,7 +118,18 @@ public class IngameDiceVisualEntity : MonoBehaviour, IPointerClickHandler
 
     public void SetConsumed()
     {
+        if (!myDice)
+        {
+            return;
+        }
+
         consumed = true;
+
+        //Exile dice
+        if (myDice.exileOnPlay)
+        {
+            DiceRunController.Instance.RemoveDiceFromPlayerBag(myDice);
+        }
     }
 
     public void MarkConsumed()

@@ -11,6 +11,12 @@ public class DiceStats : ScriptableObject
     public string UID;
     [ColorUsage(false)]
     public Color rollResultColor;
+
+    public DiceEffect[] discardEffects;
+
+    public bool exileOnPlay = false;
+    public bool exileOnDiscord = false;
+
     private void OnValidate()
     {
 #if UNITY_EDITOR
