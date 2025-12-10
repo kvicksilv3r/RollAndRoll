@@ -178,7 +178,7 @@ public class DiceRunController : MonoBehaviour
 
     public void RemoveDiceDescription()
     {
-        diceDescriptionController.RemoveDiceDescription();
+        diceDescriptionController.ClearDiceDescription();
     }
 
     public void UpdateDiceAmountText()

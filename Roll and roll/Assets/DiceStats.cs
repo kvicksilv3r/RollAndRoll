@@ -15,7 +15,7 @@ public class DiceStats : ScriptableObject
     public DiceEffect[] discardEffects;
 
     public bool exileOnPlay = false;
-    public bool exileOnDiscord = false;
+    public bool exileOnDiscard = false;
 
     private void OnValidate()
     {

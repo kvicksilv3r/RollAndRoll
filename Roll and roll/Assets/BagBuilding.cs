@@ -120,7 +120,7 @@ public class BagBuilding : MonoBehaviour
 
     public void RemoveDiceInfo()
     {
-        descriptionController.RemoveDiceDescription();
+        descriptionController.ClearDiceDescription();
 
         SetAddRemoveButtons(false);
     }

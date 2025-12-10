@@ -11,6 +11,9 @@ public class DiceDescriptionController : MonoBehaviour
     public GameObject descriptionObject;
     public GameObject outcomeObject;
 
+    public GameObject exileOnPlay;
+    public GameObject exileOnDiscard;
+
     public void SetDisplayedInfo(bool name, bool description, bool outcomes)
     {
         nameObject.SetActive(name);
@@ -25,14 +28,20 @@ public class DiceDescriptionController : MonoBehaviour
         diceDescriptionTMP.text = dice.description;
 
         diceOutcomesTMP.text = string.Join("  ", dice.sides);
+
+        exileOnPlay.SetActive(dice.exileOnPlay);
+        exileOnDiscard.SetActive(dice.exileOnDiscard);
     }
 
-    public void RemoveDiceDescription()
+    public void ClearDiceDescription()
     {
         diceNameTMP.text = "";
 
         diceDescriptionTMP.text = "";
 
         diceOutcomesTMP.text = "";
+
+        exileOnPlay.SetActive(false);
+        exileOnDiscard.SetActive(false);
     }
 }

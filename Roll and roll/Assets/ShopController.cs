@@ -171,7 +171,7 @@ public class ShopController : MonoBehaviour
 
     public void RemoveDiceDescription()
     {
-        descriptionController.RemoveDiceDescription();
+        descriptionController.ClearDiceDescription();
     }
 
     internal void DiceDeselected()
