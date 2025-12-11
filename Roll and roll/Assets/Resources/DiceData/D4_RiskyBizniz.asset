@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16148c1664b791d4b981a904b67d5706, type: 3}
   m_Name: D4_RiskyBizniz
   m_EditorClassIdentifier: Assembly-CSharp::DiceStats
-  displayName: D4 Risky business
+  displayName: Risky business
   description: 'Play: No effect. Exile.. \n Discard: Damage and healing (separate
     rolls)'
   sides: 00000000010000000200000003000000

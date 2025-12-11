@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16148c1664b791d4b981a904b67d5706, type: 3}
   m_Name: D2_Healing_Dice
   m_EditorClassIdentifier: 
-  displayName: D2 Healing
+  displayName: Minor healing
   description: Restores a wee bit of health. Maybe
   sides: 0000000001000000
   rarity: 3
   effects: 03000000
   UID: bb7bc7f7a13028348a301bad3c2353c6
   rollResultColor: {r: 0.1333333, g: 0.5450981, b: 0.1333333, a: 1}
+  discardEffects: 
+  exileOnPlay: 0
+  exileOnDiscard: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16148c1664b791d4b981a904b67d5706, type: 3}
   m_Name: D3_DiscardHeal
   m_EditorClassIdentifier: Assembly-CSharp::DiceStats
-  displayName: D3 Discarding
+  displayName: Discarding die
   description: Heals on discarding the die. No normal effect. Sorry
   sides: 010000000200000003000000
   rarity: 3

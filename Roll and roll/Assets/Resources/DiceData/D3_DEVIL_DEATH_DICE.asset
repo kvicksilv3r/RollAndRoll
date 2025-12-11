@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Dice of Lucifer
   description: Mors gratia mortis
-  sides: 060000000600000006000000
+  sides: 060000000600000006000000060000000600000006000000
   rarity: 9
   effects: 04000000
   UID: cd948f9bf77922146937fce3d2abc96f

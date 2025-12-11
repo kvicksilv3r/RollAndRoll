@@ -6,6 +6,7 @@ public class DiceDescriptionController : MonoBehaviour
     public TextMeshProUGUI diceNameTMP;
     public TextMeshProUGUI diceDescriptionTMP;
     public TextMeshProUGUI diceOutcomesTMP;
+    public TextMeshProUGUI diceFaceCountTMP;
 
     public GameObject nameObject;
     public GameObject descriptionObject;
@@ -29,6 +30,8 @@ public class DiceDescriptionController : MonoBehaviour
 
         diceOutcomesTMP.text = string.Join("  ", dice.sides);
 
+        diceFaceCountTMP.text = "D" + dice.sides.Length.ToString();
+
         exileOnPlay.SetActive(dice.exileOnPlay);
         exileOnDiscard.SetActive(dice.exileOnDiscard);
     }
@@ -40,6 +43,8 @@ public class DiceDescriptionController : MonoBehaviour
         diceDescriptionTMP.text = "";
 
         diceOutcomesTMP.text = "";
+
+        diceFaceCountTMP.text = "";
 
         exileOnPlay.SetActive(false);
         exileOnDiscard.SetActive(false);
