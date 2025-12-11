@@ -21,4 +21,4 @@ MonoBehaviour:
   rollResultColor: {r: 1, g: 1, b: 1, a: 1}
   discardEffects: 
   exileOnPlay: 0
-  exileOnDiscord: 0
+  exileOnDiscard: 0

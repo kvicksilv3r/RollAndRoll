@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16148c1664b791d4b981a904b67d5706, type: 3}
+  m_Name: D4_RiskyBizniz
+  m_EditorClassIdentifier: Assembly-CSharp::DiceStats
+  displayName: D4 Risky business
+  description: 'Play: No effect. Exile.. \n Discard: Damage and healing (separate
+    rolls)'
+  sides: 00000000010000000200000003000000
+  rarity: 3
+  effects: 04000000
+  UID: 980328fc0f0a14a44a5885b43d5ac0b1
+  rollResultColor: {r: 0.81903154, g: 0.8679245, b: 0.1760413, a: 0}
+  discardEffects: 0100000003000000
+  exileOnPlay: 1
+  exileOnDiscard: 0

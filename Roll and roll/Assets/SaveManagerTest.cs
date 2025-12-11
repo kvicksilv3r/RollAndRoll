@@ -65,7 +65,7 @@ public class SaveManagerTest : MonoBehaviour
 
     private void LoadBag()
     {
-        var path = BasePath + "/leBag.json";
+        var path = GetFullPath();
 
         if (!File.Exists(path))
         {
@@ -80,7 +80,7 @@ public class SaveManagerTest : MonoBehaviour
     {
         var data = JsonUtility.ToJson(tempBag);
 
-        var totalPath = BasePath + "/leBag.json";
+        var totalPath = GetFullPath();
 
         if (!File.Exists(totalPath))
         {
@@ -88,6 +88,11 @@ public class SaveManagerTest : MonoBehaviour
         }
 
         File.WriteAllText(totalPath, data);
+    }
+
+    private string GetFullPath()
+    {
+        return BasePath + "/leBag.json";
     }
 
     public List<SaveBagFormat> BagToSaveBag(DiceBag bag)
